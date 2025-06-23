@@ -10,8 +10,22 @@ export const seedInitialProducts = async () => {
       {
         title: "Dell Laptop",
         image:
-          "https://m.media-amazon.com/images/G/08/apparel/rcxgs/tile._CB483369919_.gif",
-        price: 1500,
+          "https://hf-store.pk/wp-content/uploads/2024/05/WhatsApp-Image-2024-05-04-at-5.23.01-AM-700x535.jpeg",
+        price: 700,
+        stock: 10,
+      },
+      {
+        title: "Asus Laptop",
+        image:
+          "https://winblogs.thesourcemediaassets.com/sites/2/2017/05/2d32bf94499761cf00b4642162deb8bf-e1496038264499.jpg",
+        price: 650,
+        stock: 10,
+      },
+      {
+        title: "HP Laptop",
+        image:
+          "https://www.hp.com/fr-fr/shop/Html/Merch/Images/9Q249EA-ABF_1750x1285.jpg",
+        price: 900,
         stock: 10,
       },
     ];

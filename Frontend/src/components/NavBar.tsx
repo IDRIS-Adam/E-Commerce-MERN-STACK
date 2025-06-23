@@ -16,7 +16,7 @@ const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 function NavBar() {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
-  
+
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -29,13 +29,13 @@ function NavBar() {
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
-              <Toolbar disableGutters>
-                  <Box sx={{
-                      display: "flex",
-                      direction: "row",
-                      justifyContent: "space-between",
-                      width: "100%",
-                     alignItems:"center"
+        <Toolbar disableGutters>
+          <Box sx={{
+            display: "flex",
+            direction: "row",
+            ustifyContent: "space-between",
+            width: "100%",
+            alignItems: "center"
         }}>
         <Box sx={{ display: "flex", flexDirection: "row", alignItems:"center" }}>
           <AdbIcon sx={{ display: 'flex' , mr: 1 }} />
@@ -53,7 +53,6 @@ function NavBar() {
             Tech Hub
           </Typography>
         </Box>
-          
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -75,18 +74,19 @@ function NavBar() {
               }}
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
-            >
+              >
               {settings.map((setting) => (
                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
                   <Typography sx={{ textAlign: 'center' }}>{setting}</Typography>
                 </MenuItem>
               ))}
             </Menu>
-                </Box>
+            </Box>
             </Box>
         </Toolbar>
       </Container>
     </AppBar>
   );
 }
+
 export default NavBar;
