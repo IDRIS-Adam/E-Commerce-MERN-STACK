@@ -12,7 +12,7 @@ router.post('/register', async (request, response) => {
         const { firstName, lastName, email, password } = request.body;
     
         const result = await resgister({ firstName, lastName, email, password });
-        response.status(result.statusCode).send(result.data);
+        response.status(result.statusCode).json(result.data);
         // Another way 
         //const {result, data } = await resgister({ firstName, lastName, email, password })
         //response.status(statusCode).send(data);
@@ -30,7 +30,7 @@ router.post('/login', async (request, response) => {
         //  data = {email, password}; same thing!
         const { email, password } = request.body;
         const { statusCode, data } = await login({ email, password })
-        response.status(statusCode).send(data);
+        response.status(statusCode).json(data);
     } catch (error) {
         response.status(500).send("Someting went wrong!");
     }
