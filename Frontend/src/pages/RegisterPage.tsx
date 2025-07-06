@@ -1,6 +1,7 @@
 import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import { useRef, useState } from "react";
 import { BASE_URL } from "../Constants/baseURL";
+import { useAuth } from "../context/ContextAuth/AuthContext";
 
 const RegisterPage = () => {
   // use error
@@ -12,15 +13,25 @@ const RegisterPage = () => {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
+
   // The function of sending data to the server
+
+  const {login} = useAuth();
+  
+
   const onSubmit = async () => {
     const firstName = firstNameRef.current?.value;
     const lastName = lastNameRef.current?.value;
     const email = emailRef.current?.value;
     const password = passwordRef.current?.value;
 
-    // test the inputs in log
-    console.log(firstName, lastName, email, password);
+    // Validate the form Data
+    if (!firstName || !lastName || !email || !password) {
+      setError("Check submitted data")
+      return;
+    }
+      // test the inputs in log
+      console.log(firstName, lastName, email, password);
 
     /// Make the call to API to create the user
     const response = await fetch(`${BASE_URL}/user/register`, {
@@ -35,13 +46,20 @@ const RegisterPage = () => {
         password,
       }),
     });
-    if (!response.ok) {
-      setError("Email already exists, Please try again !");
+
+    if (!response.ok){
+      setError("Unable to register user, Please try again !");
       return;
     }
 
-    const data = await response.json();
-    console.log(data);
+    const token = await response.json();
+
+    if (!token) {
+      setError("Incorrect Token")
+      return;
+    }
+
+    login(email, token)
   };
 
   /////////////////////// The Page
