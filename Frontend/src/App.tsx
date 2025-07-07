@@ -1,27 +1,24 @@
-
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import './App.css'
-import HomePage from './pages/HomePage';
-import LoginPage from './pages/LoginPage';
-import NavBar from './components/NavBar';
-import RegisterPage from './pages/RegisterPage';
-import AuthProvider from './context/ContextAuth/AuthProvider';
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import "./App.css";
+import HomePage from "./pages/HomePage";
+import LoginPage from "./pages/LoginPage";
+import NavBar from "./components/NavBar";
+import RegisterPage from "./pages/RegisterPage";
+import AuthProvider from "./context/ContextAuth/AuthProvider";
 
 function App() {
-  
-
   return (
-    <AuthProvider>
+    <AuthProvider> //// Wraping on all pages for using AuthContext
       <BrowserRouter>
         <NavBar />
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/login" element={<LoginPage />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
   );
 }
 
-export default App
+export default App;

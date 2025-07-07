@@ -2,6 +2,7 @@ import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import { useRef, useState } from "react";
 import { BASE_URL } from "../Constants/baseURL";
 import { useAuth } from "../context/ContextAuth/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const RegisterPage = () => {
   // use error
@@ -13,11 +14,10 @@ const RegisterPage = () => {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
-
+  const naviget = useNavigate();
   // The function of sending data to the server
 
-  const {login} = useAuth();
-  
+  const { login } = useAuth();
 
   const onSubmit = async () => {
     const firstName = firstNameRef.current?.value;
@@ -27,11 +27,11 @@ const RegisterPage = () => {
 
     // Validate the form Data
     if (!firstName || !lastName || !email || !password) {
-      setError("Check submitted data")
+      setError("Check submitted data");
       return;
     }
-      // test the inputs in log
-      console.log(firstName, lastName, email, password);
+    // test the inputs in log
+    console.log(firstName, lastName, email, password);
 
     /// Make the call to API to create the user
     const response = await fetch(`${BASE_URL}/user/register`, {
@@ -47,7 +47,7 @@ const RegisterPage = () => {
       }),
     });
 
-    if (!response.ok){
+    if (!response.ok) {
       setError("Unable to register user, Please try again !");
       return;
     }
@@ -55,11 +55,13 @@ const RegisterPage = () => {
     const token = await response.json();
 
     if (!token) {
-      setError("Incorrect Token")
+      setError("Incorrect Token");
       return;
     }
 
-    login(email, token)
+    login(email, token);
+    // Navigate to the HomePage
+    naviget("/");
   };
 
   /////////////////////// The Page
