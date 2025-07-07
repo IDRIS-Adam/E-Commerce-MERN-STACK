@@ -8,7 +8,7 @@ import AuthProvider from "./context/ContextAuth/AuthProvider";
 
 function App() {
   return (
-    <AuthProvider> //// Wraping on all pages for using AuthContext
+    <AuthProvider> 
       <BrowserRouter>
         <NavBar />
         <Routes>

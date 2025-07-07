@@ -1,12 +1,16 @@
 import { useState, type FC, type PropsWithChildren } from "react";
 import { AuthContext } from "./AuthContext";
 
+
+
+const USERNAME_KEY = "username";
+const TOKEN_KEY = "token";
 const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
   const [username, setUsername] = useState<string | null>(
-    localStorage.getItem("username")
+    localStorage.getItem(USERNAME_KEY)
   );
   const [token, setToken] = useState<string | null>(
-    localStorage.getItem("token")
+    localStorage.getItem(TOKEN_KEY)
   );
 
   // Use useEffect when i want to set the data from localStorage or use it above in useState
@@ -17,16 +21,30 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
   //     setToken(LocalToken)
   // },[])
 
+  
+  // chaeck isAuthenticated
+  const isAuthenticated = !!token;
+  
+  /// Login fun
   const login = (username: string, token: string) => {
     setUsername(username);
     setToken(token);
-    localStorage.setItem("username", username);
-    localStorage.setItem("token", token);
+    localStorage.setItem(USERNAME_KEY, username);
+    localStorage.setItem(TOKEN_KEY, token);
   };
-  // chaeck isAuthenticated
-  const isAuthenticated = !!token;
+
+  /// Logout fun
+  const logout = () => {
+    localStorage.removeItem(USERNAME_KEY);
+    localStorage.removeItem(TOKEN_KEY);
+    setUsername(null);
+    setToken(null);
+  };
+
   return (
-    <AuthContext.Provider value={{ username, token, login, isAuthenticated }}>
+    <AuthContext.Provider
+      value={{ username, token, isAuthenticated, login, logout }}
+    >
       {children}
     </AuthContext.Provider>
   );
