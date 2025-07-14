@@ -39,7 +39,8 @@ const CartPage = () => {
         }
         fetchCart();
     },[token]);
-    console.log(cart)
+    console.log(cart);
+    console.log(error)
   return (
     <Container sx={{ mt: 2 }}>
       <Typography variant="h4">My Cart</Typography>
