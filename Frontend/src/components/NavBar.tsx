@@ -10,8 +10,8 @@ import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
-import  ShoppingCart  from "@mui/icons-material/ShoppingCart";
-import { useAuth } from "../context/ContextAuth/AuthContext";
+import ShoppingCart from "@mui/icons-material/ShoppingCart";
+import { useAuth } from "../context/Auth/AuthContext";
 import { Badge, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
@@ -43,13 +43,13 @@ function NavBar() {
     logout();
     navigate("/");
     handleCloseUserMenu();
-  }
-  
+  };
+
   // Handle Cart Button
 
   const handleCart = () => {
-    navigate("/cart")
-  }
+    navigate("/cart");
+  };
 
   return (
     <AppBar position="static">

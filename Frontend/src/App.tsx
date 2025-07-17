@@ -4,24 +4,27 @@ import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import NavBar from "./components/NavBar";
 import RegisterPage from "./pages/RegisterPage";
-import AuthProvider from "./context/ContextAuth/AuthProvider";
+import AuthProvider from "./context/Auth/AuthProvider";
 import CartPage from "./pages/CartPage";
 import ProtectedRoute from "./components/ProtectedRoute";
+import CartProvider from "./context/Cart/CartProvider";
 
 function App() {
   return (
     <AuthProvider>
-      <BrowserRouter>
-        <NavBar />
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route element={<ProtectedRoute/>}>
-            <Route path="/cart" element={<CartPage />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      <CartProvider>
+        <BrowserRouter>
+          <NavBar />
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route element={<ProtectedRoute />}>
+              <Route path="/cart" element={<CartPage />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </CartProvider>
     </AuthProvider>
   );
 }

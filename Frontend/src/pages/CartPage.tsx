@@ -1,54 +1,53 @@
-import { Container, Typography } from "@mui/material";
+import { Box, Container, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { BASE_URL } from "../Constants/baseURL";
-import { useAuth } from "../context/ContextAuth/AuthContext";
+import { useAuth } from "../context/Auth/AuthContext";
+import { useCart } from "../context/Cart/CartContext";
 
 const CartPage = () => {
+  // Pring the token for user from useAuth
+  const { token } = useAuth();
 
-    // Pring the token for user from useAuth 
-    const { token } = useAuth();
+  // initiale useState
+  const { cartItems, totalAmount } = useCart();
 
-    // initiale useState
-    const [cart, setCart] = useState();
+  // initiale error
+  const [error, setError] = useState("");
 
-    // initiale error 
-    const [error, setError] = useState('');
+  // initiale useEffect for calling the endpoints
+  // useEffect(() => {
+  //   // Chech the token
+  //   if (!token) {
+  //     return;
+  //   }
 
-    // initiale useEffect for calling the endpoints
-    useEffect(() => {
+  //   ///
+  //   const fetchCart = async () => {
+  //     const response = await fetch(`${BASE_URL}/cart`, {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     });
+  //     if (!response.ok) {
+  //       setError("Failed to fetch User Cart, Please try again !");
+  //     }
 
-        // Chech the token
-        if (!token) {
-            return;
-        }
-        
-        /// 
-        const fetchCart = async () => {
-            const response = await fetch(`${BASE_URL}/cart`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-            if (!response.ok) {
-                setError("Failed to fetch User Cart, Please try again !");
-            }
+  //     // Put the data in json
+  //     const data = await response.json();
+  //     setCart(data);
+  //   };
+  //   fetchCart();
+  // }, [token]);
 
-            // Put the data in json
-            const data = await response.json();
-            setCart(data);
-        }
-        fetchCart();
-    },[token]);
-    console.log(cart);
-    console.log(error)
+  console.log(error);
   return (
     <Container sx={{ mt: 2 }}>
       <Typography variant="h4">My Cart</Typography>
+      {cartItems.map((item) => (
+        <Box>{item.title}</Box>
+      ))}
     </Container>
   );
 };
-
-
-
 
 export default CartPage;

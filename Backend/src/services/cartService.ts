@@ -3,12 +3,10 @@ import { IOrderItems, orderModel } from "../models/orderModel";
 import productModel from "../models/productModel";
 import { ExtendRequest } from "../Types/extendedRequest";
 
-
 /////////////////////////////////////////////////////////// Create Cart for User
 interface createCartForUser {
   userId: string;
 }
-
 
 const createCartForUSer = async ({ userId }: createCartForUser) => {
   try {
@@ -23,26 +21,33 @@ const createCartForUSer = async ({ userId }: createCartForUser) => {
 
 interface getActiveCartForUser {
   userId: string;
+  populateProduct?: boolean;
 }
 
 export const getActiveCartForUser = async ({
   userId,
+  populateProduct,
 }: getActiveCartForUser) => {
   try {
-    let cart = await cartModel.findOne({ userId, status: "active" });
-  
+    let cart;
+    if (populateProduct) {
+      cart = await cartModel
+        .findOne({ userId, status: "active" })
+        .populate("items.product");
+    } else {
+      cart = await cartModel.findOne({ userId, status: "active" });
+    }
     if (!cart) {
       cart = await createCartForUSer({ userId });
     }
     return cart;
-    
   } catch (error) {
     console.error("Error getting active cart:", error);
-    throw new Error("Failed to get active cart!")
+    throw new Error("Failed to get active cart!");
   }
 };
 
-////////////////////////////////////////////////////////////////////// ADDING 
+////////////////////////////////////////////////////////////////////// ADDING
 interface addItemToCart {
   productId: any;
   userId: string;
@@ -96,15 +101,16 @@ export const addItemToCart = async ({
 
     cart.totalAmount += product.price * quantity;
 
-    const updatedCart = await cart.save();
-    return { data: updatedCart, statusCode: 201 };
+    await cart.save();
+    return {
+      data: await getActiveCartForUser({ userId, populateProduct: true }),
+      statusCode: 201,
+    };
   } catch (error) {
-    console.error("Error adding item to cart:", error)
+    console.error("Error adding item to cart:", error);
     return { data: "Failed to add item to cart", statusCode: 500 };
   }
- 
 };
-
 
 /////////////////////////////////////////////////////////////////////// UPDATING
 interface updateItemInCart {
@@ -115,9 +121,8 @@ interface updateItemInCart {
 export const updateItemInCart = async ({
   userId,
   productId,
-  quantity
+  quantity,
 }: updateItemInCart) => {
-  
   try {
     // first get the active card
     const cart = await getActiveCartForUser({ userId });
@@ -162,16 +167,18 @@ export const updateItemInCart = async ({
     cart.totalAmount = total;
 
     // last step
-    const updatedCart = await cart.save();
-    return { data: updatedCart, statusCode: 200 };
+    await cart.save();
+    return {
+      data: await getActiveCartForUser({ userId, populateProduct: true }),
+      statusCode: 200,
+    };
   } catch (error) {
     console.error("Error updating item in cart:", error);
     return { data: "Failed to update cart", statusCode: 500 };
   }
-}
+};
 
-
-///////////////////////////////////////////////////////////////////////////// DELETING 
+///////////////////////////////////////////////////////////////////////////// DELETING
 
 interface deleteItemFromCard {
   userId: string;
@@ -182,7 +189,6 @@ export const deleteItemFromCard = async ({
   userId,
   productId,
 }: deleteItemFromCard) => {
-
   try {
     // first get the active card
     const cart = await getActiveCartForUser({ userId });
@@ -208,38 +214,36 @@ export const deleteItemFromCard = async ({
 
     cart.items = otherCartItems;
     cart.totalAmount = total;
-    const updatedCart = await cart.save();
+    await cart.save();
 
-    return { data: updatedCart, statusCode: 200 };
+    return {
+      data: await getActiveCartForUser({ userId, populateProduct: true }),
+      statusCode: 200,
+    };
   } catch (error) {
     console.error("Error for delete ", error);
-    return {data: "Failed to delete !!", statusCode: 500}
+    return { data: "Failed to delete !!", statusCode: 500 };
   }
-  
 };
 
-
 ///////////////////////////////////////////////////// DELETE ALL PRODUCT FROM CART (CLEAR)
-
 
 interface clearCart {
   userId: string;
 }
 
 export const clearCart = async ({ userId }: clearCart) => {
-
   try {
-    const cart = await getActiveCartForUser({ userId })
+    const cart = await getActiveCartForUser({ userId });
     cart.items = [];
     cart.totalAmount = 0;
     const updatedCart = await cart.save();
     return { data: updatedCart, statusCode: 200 };
-    
   } catch (error) {
     console.error("Error to clear cart", error);
-    return{data: "Failed to clear cart", statusCode: 500}
+    return { data: "Failed to clear cart", statusCode: 500 };
   }
-}
+};
 
 ////////////////////////////////////// Finish the Porchase [ Checkout and Create an Order ]
 
@@ -249,7 +253,6 @@ interface Checkout {
 }
 
 export const Checkout = async ({ userId, address }: Checkout) => {
-
   try {
     if (!address) {
       return { data: "Please Enter the address !!", statusCode: 400 };
@@ -291,7 +294,6 @@ export const Checkout = async ({ userId, address }: Checkout) => {
     return { data: Order, statusCode: 200 };
   } catch (error) {
     console.error("Error to checkout the cart", error);
-    return {data: "Failed to checkout the cart", statusCode:500}
+    return { data: "Failed to checkout the cart", statusCode: 500 };
   }
-
-}; 
+};

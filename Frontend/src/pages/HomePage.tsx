@@ -80,7 +80,7 @@ const HomePage = () => {
           flexBasis: { xs: "100%", sm: "48%", md: "30%" },
           height: 180,
         }}>
-            <ProductCard id={_id} title={title} price={price} image={image} />
+            <ProductCard _id={_id} title={title} price={price} image={image} />
 
         </Box>
         ))}
