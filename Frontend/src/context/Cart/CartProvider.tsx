@@ -34,15 +34,16 @@ const CartProvider: FC<PropsWithChildren> = ({ children }) => {
       const cart = await response.json();
 
       const cartItemsMapped = cart.items.map(
-        ({ product, quantity }: { product: any; quantity: number }) => ({
+        ({ product, quantity , unitPrice}: { product: any; quantity: number, unitPrice: number }) => ({
           productId: product.id,
           title: product.title,
           image: product.image,
-          unitprice: product.unitprice,
+          unitPrice,
           quantity,
         })
       );
       setCartItems(cartItemsMapped);
+      setTotoalAmount(cart.totalAmount);
   
     };
     fetchCart();
@@ -75,7 +76,7 @@ const CartProvider: FC<PropsWithChildren> = ({ children }) => {
 
       //////////////////////////////////////////// Mapping the cart
       const cartItemsMapped = cart.items.map(
-        ({ product, quantity }: { product: any; quantity: number }) => ({
+        ({ product, quantity  }: { product: any; quantity: number }) => ({
           productId: product.id,
           title: product.title,
           image: product.image,
