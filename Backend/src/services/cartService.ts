@@ -131,6 +131,7 @@ export const updateItemInCart = async ({
     const existInCart = cart.items.find(
       (p) => p.product.toString() === productId
     );
+    console.log(existInCart)
 
     //third check the existing item
     if (!existInCart) {

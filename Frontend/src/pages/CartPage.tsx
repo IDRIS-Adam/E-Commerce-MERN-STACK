@@ -5,16 +5,20 @@ import ButtonGroup from "@mui/material/ButtonGroup";
 
 const CartPage = () => {
   // Pring the token for user from useAuth
+  const { cartItems, totalAmount, updateItemInCart } = useCart();
+  const handleQuantity = (productId: string, quantity: number) => {
+    if (quantity <= 0) return;
+    updateItemInCart(productId, quantity);
+  };
 
-  // initiale useState
-  const { cartItems, totalAmount } = useCart();
-
+  const HandleRemoveItem = (productId: string) => {
+    deleteItemInCart()
+  }
   return (
     <Container fixed sx={{ mt: 2 }}>
       <Typography variant="h4" marginBottom={4}>
         My Cart
       </Typography>
-
       <Box display="flex" flexDirection="column" gap={2}>
         {cartItems.map((item) => (
           <Box
@@ -34,23 +38,34 @@ const CartPage = () => {
               <Box>
                 <Typography variant="h6"> {item.title}</Typography>
                 <Typography>
-                  {item.quantity} * {item.unitPrice} £
+                  {item.quantity} x {item.unitPrice} £
                 </Typography>
-                <Button sx={{ color: "red" }}>Remove Item</Button>
+                <Button onClick={()=> HandleRemoveItem(item.productId)} sx={{ color: "red" }}>Remove Item</Button>
               </Box>
             </Box>
             <ButtonGroup variant="contained" aria-label="Basic button group">
-              <Button>-</Button>
-              <Button>+</Button>
+              <Button
+                onClick={() =>
+                  handleQuantity(item.productId, item.quantity - 1)
+                }
+              >
+                -
+              </Button>
+              <Button
+                onClick={() =>
+                  handleQuantity(item.productId, item.quantity + 1)
+                }
+              >
+                +
+              </Button>
             </ButtonGroup>
           </Box>
         ))}
         <Box>
-          <Typography variant="h4">Total Amount: {totalAmount.toFixed(2)} £</Typography>
+          <Typography variant="h4">Total Amount: {totalAmount} £</Typography>
         </Box>
       </Box>
     </Container>
   );
 };
-
 export default CartPage;
