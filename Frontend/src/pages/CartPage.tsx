@@ -5,15 +5,18 @@ import ButtonGroup from "@mui/material/ButtonGroup";
 
 const CartPage = () => {
   // Pring the token for user from useAuth
-  const { cartItems, totalAmount, updateItemInCart } = useCart();
+  const { cartItems, totalAmount, updateItemInCart, removeItemInCart } =
+    useCart();
   const handleQuantity = (productId: string, quantity: number) => {
     if (quantity <= 0) return;
     updateItemInCart(productId, quantity);
   };
 
   const HandleRemoveItem = (productId: string) => {
-    deleteItemInCart()
-  }
+    removeItemInCart(productId);
+  };
+
+
   return (
     <Container fixed sx={{ mt: 2 }}>
       <Typography variant="h4" marginBottom={4}>
