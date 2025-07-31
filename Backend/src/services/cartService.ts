@@ -131,7 +131,7 @@ export const updateItemInCart = async ({
     const existInCart = cart.items.find(
       (p) => p.product.toString() === productId
     );
-    console.log(existInCart)
+    console.log(existInCart);
 
     //third check the existing item
     if (!existInCart) {
@@ -238,8 +238,13 @@ export const clearCart = async ({ userId }: clearCart) => {
     const cart = await getActiveCartForUser({ userId });
     cart.items = [];
     cart.totalAmount = 0;
-    const updatedCart = await cart.save();
-    return { data: updatedCart, statusCode: 200 };
+
+    await cart.save();
+
+    return {
+      data: getActiveCartForUser({ userId, populateProduct: true }),
+      statusCode: 200,
+    };
   } catch (error) {
     console.error("Error to clear cart", error);
     return { data: "Failed to clear cart", statusCode: 500 };

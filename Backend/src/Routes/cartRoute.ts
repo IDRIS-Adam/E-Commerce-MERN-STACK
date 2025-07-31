@@ -53,7 +53,7 @@ router.put('/items', validatJWT, async (req: ExtendRequest, res) => {
   }
 })
 
-// Delete All product from Card
+// Delete All product from Card ( Clear Cart )
 router.delete('/', validatJWT, async (req: ExtendRequest, res) => {
   try {
     const userId = req?.user?._id;
