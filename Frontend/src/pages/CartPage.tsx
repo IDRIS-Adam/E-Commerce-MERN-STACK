@@ -2,9 +2,14 @@ import { Box, Container, Typography } from "@mui/material";
 import { useCart } from "../context/Cart/CartContext";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
+import { useNavigate } from "react-router-dom";
+
+
+
 
 const CartPage = () => {
   // Pring the token for user from useAuth
+
   const {
     cartItems,
     totalAmount,
@@ -12,6 +17,10 @@ const CartPage = () => {
     removeItemInCart,
     clearCart,
   } = useCart();
+  
+  const navigate = useNavigate();
+
+
   const handleQuantity = (productId: string, quantity: number) => {
     if (quantity <= 0) return;
     updateItemInCart(productId, quantity);
@@ -20,6 +29,10 @@ const CartPage = () => {
   const HandleRemoveItem = (productId: string) => {
     removeItemInCart(productId);
   };
+
+  const handeCheckout = () => {
+    navigate("/checkout");
+  }
 
   //////// Define the component of cart item
   const renderCartItem = () => (
@@ -66,8 +79,9 @@ const CartPage = () => {
           </ButtonGroup>
         </Box>
       ))}
-      <Box>
+      <Box display="flex" flexDirection="row" justifyContent="space-between">
         <Typography variant="h4">Total Amount: {totalAmount} £</Typography>
+        <Button variant="contained" onClick={handeCheckout}> Go To Ceckout </Button>
       </Box>
     </Box>
   );
