@@ -1,6 +1,9 @@
 
-import express, { request } from "express";
-import { login, resgister } from "../services/userService";
+import express, { request, response } from "express";
+import { getMyOrders, login, resgister } from "../services/userService";
+import { getActiveCartForUser } from "../services/cartService";
+import validatJWT from "../middlewares/validationJWT";
+import { ExtendRequest } from "../Types/extendedRequest";
 // import userModel from "../models/userModel";
 
 const router = express.Router();
@@ -18,7 +21,7 @@ router.post('/register', async (request, response) => {
         //response.status(statusCode).send(data);
         
     } catch (error) {
-        response.status(500).send("Someting went wrong!");
+        response.status(500).send("Someting went wrong to Resgister!");
 
     }
 });
@@ -32,8 +35,19 @@ router.post('/login', async (request, response) => {
         const { statusCode, data } = await login({ email, password })
         response.status(statusCode).json(data);
     } catch (error) {
-        response.status(500).send("Someting went wrong!");
+        response.status(500).send("Someting went wrong to Login!");
     }
 })
+
+router.get("/my-orders", validatJWT, async (request: ExtendRequest, response) => { 
+    try {
+        const userId = request?.user?._id;
+        const { statusCode , data } = await getMyOrders({ userId });
+        response.status(statusCode).send(data);
+
+    } catch (error) {
+        response.status(500).send("Someting went wrong To Get Orders");
+    }
+});
 
 export default router;

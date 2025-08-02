@@ -1,6 +1,7 @@
 import userModel from "../models/userModel";
 import bcrypt from "bcrypt";
 import jwt, { sign } from "jsonwebtoken";
+import { orderModel } from "../models/orderModel";
 
 interface RegisterParams {
   firstName: string;
@@ -66,6 +67,21 @@ export const login = async ({ email, password }: LoginParams) => {
   }
 
   return { data: "Incorrect Email or Password", statusCode: 400 };
+};
+
+
+////////// service of Orders 
+
+
+interface getMyOrdersParams {
+  userId: string;
+}
+export const getMyOrders = async ({ userId }: getMyOrdersParams) => {
+  try {
+    return { data: await orderModel.find({ userId }), statusCode: 200 };
+  } catch (error) {
+    throw error;
+  }
 };
 
 const generateJWT = (data: any) => {

@@ -12,7 +12,7 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import ShoppingCart from "@mui/icons-material/ShoppingCart";
 import { useAuth } from "../context/Auth/AuthContext";
-import { Badge, Button, colors } from "@mui/material";
+import { Badge, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/Cart/CartContext";
 
@@ -55,6 +55,11 @@ function NavBar() {
     navigate("/cart");
   };
 
+  const handleOrder = () => {
+    navigate("/my-orders-page")
+    handleCloseUserMenu();
+  }
+
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
@@ -68,7 +73,11 @@ function NavBar() {
               alignItems: "center",
             }}
           >
-            <Button variant="text" sx={{ color: "#fff" }} onClick={ () => navigate('/') }>
+            <Button
+              variant="text"
+              sx={{ color: "#fff" }}
+              onClick={() => navigate("/")}
+            >
               <Box
                 sx={{
                   display: "flex",
@@ -144,7 +153,7 @@ function NavBar() {
                     open={Boolean(anchorElUser)}
                     onClose={handleCloseUserMenu}
                   >
-                    <MenuItem onClick={handleCloseUserMenu}>
+                    <MenuItem onClick={handleOrder}>
                       <Typography sx={{ textAlign: "center" }}>
                         My Order
                       </Typography>

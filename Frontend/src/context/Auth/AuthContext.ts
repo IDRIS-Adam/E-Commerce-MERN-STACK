@@ -3,6 +3,8 @@ import { createContext, useContext } from "react";
 interface AuthContextType {
   username: string | null;
   token: string | null;
+  myOrders: any[];
+  getMyOrders: () => void;
   login: (username: string, token: string) => void;
   isAuthenticated: boolean;
   logout: () => void;
@@ -11,9 +13,11 @@ interface AuthContextType {
 export const AuthContext = createContext<AuthContextType>({
   username: null,
   token: null,
+  getMyOrders: () => {},
+  myOrders: [],
   login: () => {},
   isAuthenticated: false,
-  logout: () => { },
+  logout: () => {},
 });
 
 export const useAuth = () => useContext(AuthContext);
