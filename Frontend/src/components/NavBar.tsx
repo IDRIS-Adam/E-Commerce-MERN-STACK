@@ -9,7 +9,7 @@ import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
+import SellIcon from "@mui/icons-material/Sell";
 import ShoppingCart from "@mui/icons-material/ShoppingCart";
 import { useAuth } from "../context/Auth/AuthContext";
 import { Badge, Button } from "@mui/material";
@@ -85,7 +85,8 @@ function NavBar() {
                   alignItems: "center",
                 }}
               >
-                <AdbIcon sx={{ display: "flex", mr: 1 }} />
+    
+                <SellIcon sx={{ display: "flex", mr: 1 }} />                
                 <Typography
                   variant="h6"
                   noWrap
@@ -97,7 +98,7 @@ function NavBar() {
                     fontWeight: 700,
                   }}
                 >
-                  Tech Hub
+                  Adam Store
                 </Typography>
               </Box>
             </Button>
