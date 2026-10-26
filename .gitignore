@@ -1,2 +1,8 @@
 node_modules
 .envminikube-linux-amd64
+
+# Local environment variables
+Backend/.env
+
+# Minikube executable
+minikube-linux-amd64
