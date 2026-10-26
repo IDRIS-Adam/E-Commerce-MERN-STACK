@@ -120,4 +120,7 @@ const CheckoutPage = () => {
     </Container>
   );
 };
+
+
+
 export default CheckoutPage;
