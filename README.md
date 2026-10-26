@@ -1,6 +1,6 @@
 # E-Commerce MERN Stack
 
-A full-stack e-commerce web application built with MongoDB, Express, React and Node.js.
+A full-stack E-Commerce web application built with MongoDB, Express, React and Node.js (some of TypeScript code).
 
 ## Features
 - User registration and login (JWT authentication) 
@@ -32,8 +32,7 @@ E-Commerce-MERN-STACK/
 git clone https://github.com/IDRIS-Adam/E-Commerce-MERN-STACK.git
 cd E-Commerce-MERN-STACK
 
-# Backend
-cd Backend
+# Backend cd Backend
 npm install
 
 # Frontend
